@@ -1,45 +1,54 @@
 package com.lapluu.eCommerce.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Data
+@RequiredArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String login_name;
-    private String email;
-    private String password;
-    private String com_code;
-    private String status;
-    private String forgot;
-    private String logintype;
-    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
-    @OneToOne(mappedBy = "user")
-    private UserProfile profile;
+    private final String login_name;
+    private final String email;
+    private final String password;
+    private final String status;
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Profile profile;
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Address address;
     @CreationTimestamp
+    @JsonIgnore
     private Timestamp creation_date;
     @UpdateTimestamp
+    @JsonIgnore
     private Timestamp modified_date;
 
-    public void copy(User user){
-        this.login_name=user.login_name;
-        this.email= user.email;
-        this.password=user.password;
-        this.com_code=user.com_code;
-        this.status=user.status;
-        this.forgot= user.forgot;
-        this.logintype=user.logintype;
-
+    User(){
+        this.login_name=null;
+        this.email=null;
+        this.password=null;
+        this.status=null;
+        this.profile=null;
+        this.address=null;
     }
+    @Override
+    public String toString() {
+        return String.format(" %s, %s, %s,%s,%s ",
+                login_name, email, password, status, profile);
+    }
+}
