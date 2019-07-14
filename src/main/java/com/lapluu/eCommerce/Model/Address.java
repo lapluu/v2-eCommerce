@@ -45,7 +45,7 @@ public class Address {
 		SHIPPING,
 		HOME
 	}
-	Address() {
+	public Address() {
 
 		this.street = null;
 		this.zipCode = null;

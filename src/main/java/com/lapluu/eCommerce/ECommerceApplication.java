@@ -1,6 +1,7 @@
 package com.lapluu.eCommerce;
 
 import com.lapluu.eCommerce.Model.*;
+import com.lapluu.eCommerce.Repository.FaqRepository;
 import com.lapluu.eCommerce.Repository.ProductRepository;
 import com.lapluu.eCommerce.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class ECommerceApplication {
 	UserRepository userRepository;
 	@Autowired
 	ProductRepository productRepository;
+	@Autowired
+	FaqRepository faqRepository;
 
 	@PostConstruct
 	private void init(){
@@ -50,6 +53,15 @@ public class ECommerceApplication {
 				new Category("Electronic", "Cellphone"," N/A"));
 		this.productRepository.save(iphone8);
 
+		Faq  faq1 = new Faq("Damaged or Defective Items","You can return many items sold on Amazon.ca. When you return an item, you may see different return options depending on the seller, item, or reason for return.");
+		this.faqRepository.save(faq1);
+
+        Faq  faq2 = new Faq("About Exchanges & Replacements","You can exchange or replace an item through our Online Returns Centre if your return meets certain criteria.");
+        this.faqRepository.save(faq2);
+
+        Faq  faq3 = new Faq("Contact Third-Party Sellers",
+                "Third-party sellers handle customer service for orders shipped directly from them, unless the order is eligible for Amazon Prime.");
+        this.faqRepository.save(faq3);
 
 	}
 
